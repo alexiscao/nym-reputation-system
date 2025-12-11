@@ -81,9 +81,9 @@ The results will be stored in Jupyter notebook `table.ipynb`. The full path to t
 
 ## Reproducing results
 Considering the large amount of time that some simulations would take to finish running, first we describe three levels a user can reproduce the results. 
-Level 1: able to reproduce the results by running the complete simulation (full simulation takes within an hour.)
-Level 2: able to reproduce the results by running a small scale simulation on a reduced set of values and fewer simulation rounds (full simulation takes 10+ hours.)
-Level 3: able to reproduce the results with provided datasets from previous simulations. In this case, the results can _only_ be reproduced by running the complete simulation that would take 24+ hours.
+* Level 1: able to reproduce the results by running the complete simulation (full simulation takes within an hour.)
+* Level 2: able to reproduce the results by running a small scale simulation on a reduced set of values and fewer simulation rounds (full simulation takes 10+ hours.)
+* Level 3: able to reproduce the results with provided datasets from previous simulations. In this case, the results can _only_ be reproduced by running the complete simulation that would take 24+ hours.
 
 Here we focus on steps to reproduce the table and figures in main body of the paper (Table 1, Figure 2, 3, 4.) 
 
@@ -122,7 +122,7 @@ python3 main.py get_epochs
 ```
 2. Get Figure 3 using fresh simulation results by passing an additional flag `--test`
 ```
-python3 main.py get_epochs --test
+python3 main.py get_analysis epoch --test
 ```
 Result graphs are stored in `/src/analysis/epoch.ipynb`.
 
