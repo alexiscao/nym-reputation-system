@@ -9,7 +9,7 @@ Requested Badge(s):
 
 ## Description
 1. Paper "Analysis and Attacks on the Reputation System of Nym" by Xinmu Alexis Cao and Matthew Green. 
-2. The repository consists of a custom-build simulator to mirror different attack strategies on Nym's network monitor (NM) and analysis code to produce figures and tables from simulation results. The main goal of the simulations is to analyze how baseline staking attack compares with framing attack in terms of the costs to achieve an attack objectve.
+2. The repository consists of a custom-build simulator to mirror different attack strategies on Nym's network monitor (NM) and analysis code to produce figures and tables from simulation results. The main goal of the simulations is to analyze how baseline staking attack compares with framing attack in terms of the costs to achieve an attack objective.
 
 ### Security/Privacy Issues and Ethical Concerns
 This artifact does not hold security or privacy risks for the machine of the person trying to evaluate or reuse the artifact. The artifact does not run any vulnerable code, and it does not include anonymized transcripts or survey responses. 
