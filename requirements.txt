@@ -1,0 +1,8 @@
+numpy>=1.24
+pandas>=2.0
+matplotlib>=3.7
+scipy>=1.10
+tqdm>=4.66
+papermill>=2.5
+ipykernel>=6.25
+jupyterlab>=4.0
