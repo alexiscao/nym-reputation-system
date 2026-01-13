@@ -25,7 +25,7 @@ here but rather in the corresponding submission field on HotCRP.
 2. The simulations in the artifact were run on a Linux server with 48 CPU cores and 384GB RAM.
 
 ### Software Requirements
-1. OS: Rocky Linux 9, MacOS
+1. OS: the authors used Rocky Linux 9 and MacOS Sequoia for running the code in this artifact. (Note that the difference in detail between the OSes listed is not reflective of a difference in the specificity of actual requirements. The artifact is compatible with general Linux distributions.)
 2. OS packages: python3-pip
 3. Artifact packaging: NA
 4. Programming language compiler: Python 3.11.1
@@ -34,7 +34,7 @@ here but rather in the corresponding submission field on HotCRP.
 7. Datasets: contained in artifact. See path `/sim_data` and `/node_data`
 
 ### Estimated Time and Storage Consumption
-- The overall human and compute times required to run the artifact: full simulation requires 48 to 72 hours depends on hardware.
+- The overall human and compute times required to run the artifact: the simulation accounts for the majority of the artifact’s runtime. Full simulation took around 48 hours on a shared-access Rocky Linux 9 server with 48 CPU cores and 384GB RAM. (Note that all simulations are run in parallel with multiprocessing so the runtime depends on the number of available CPU cores.)
 - The overall disk space consumed by the artifact: 32.4 MB
 
 ## Environment
@@ -117,6 +117,7 @@ python3 main.py get_results 'A***A' v1 --attack --mini
 ```
 python3 main.py get_analysis table --test
 ```
+Result table is stored in `/src/analysis/table.ipynb`.
 
 #### Experiment 2: reproduce Figure 2 and 4:
 - Time: 1 human-minute + around 1 computer-minute
@@ -140,7 +141,7 @@ python3 main.py get_epochs
 ```
 2. Get Figure 3 using fresh simulation results by passing an additional flag `--test`
 ```
-python3 main.py get_epochs --test
+python3 main.py analysis epoch --test
 ```
 Result graphs are stored in `/src/analysis/epoch.ipynb`.
 
