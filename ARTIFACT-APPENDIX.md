@@ -42,18 +42,27 @@ here but rather in the corresponding submission field on HotCRP.
 ### Accessibility
 To obtain the repository:
 ```
-git clone git@github.com:alexiscao/nym-reputation-system.git
+git clone https://github.com/alexiscao/nym-reputation-system.git
 cd nym-reputation-system
 ```
 
 ### Set up the environment 
-To set up the environment:
+To set up the environment: users can either install dependencies directly on their host system or build the code using the provided Dockerfile.
+1. Option 1: run the following commands to install the dependencies directly.
 ```
 sudo apt update
 sudo apt install python3-pip
 python3 -m pip install -r requirements.txt
 ```
 Expected results would return "Requirement already satisfied" or "Successfully installed..."
+
+2. Option 2: build the code with Dockerfile. First, to install Docker, please follow the official Docker guides for [macOS](https://docs.docker.com/desktop/setup/install/mac-install/), [Windows](https://docs.docker.com/desktop/setup/install/windows-install/), or [Linux](https://docs.docker.com/desktop/setup/install/linux/).
+Next, run the following commands to build the Docker image and start the Docker container. 
+```
+docker build -t nym-reputation-system .
+docker run -it --rm nym-reputation-system
+```
+Expected results would return shell prompt such as `user@d6072ce1cd69:/nym-reputation-system#`. Users can then follow the instructions and commands in the rest of this file to test the artifact.
 
 ### Testing the Environment
 ```
@@ -144,6 +153,18 @@ python3 main.py get_epochs
 python3 main.py analysis epoch --test
 ```
 Result graphs are stored in `/src/analysis/epoch.ipynb`.
+
+#### Experiment 4: reproduce Figure 12, 13, 14.
+- Time: 1 human-minute + around 20 computer-minutes
+
+Note that Figure 12, 13, and 14 show the relationships among fractions of gateway/mixnode active set controlled by attacker, number of reconnections/packets sent by a victim client, and the success probability of having one connection or packet routed through an adversarial path. These results are independent of attack strategies and network monitor versions.
+
+Get analysis using fresh baseline staking simulation outputs from the step reproducing Table 1 results (Level 1.) 
+```
+python3 main.py get_analysis path_prob --test
+```
+Result graphs are stored in `/src/analysis/path_prob.ipynb`.
+
 
 ## Limitations 
 All results are reproducable using the provided datasets from our previous simulations.
