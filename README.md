@@ -1,20 +1,25 @@
 # Analysis and Attacks on the Reputation System of Nym
 
-This repository holds the code and data for our PoPETs 2026.2 paper "Analysis and Attacks on the Reputation System of Nym".
-
-Authors: Xinmu Alexis Cao, Matthew Green.
+This repository holds the code and data for our PoPETs 2026.2 paper "Analysis and Attacks on the Reputation System of Nym" by Xinmu Alexis Cao and Matthew Green.
 
 ## Obtaining this repository and setting up the environment
-To obtain the repository:
+**To obtain the repository:**
 ```
 git clone https://github.com/alexiscao/nym-reputation-system.git
 cd nym-reputation-system
 ```
-To set up the environment:
+**To set up the environment:** users can either install dependencies directly on their host system or build the code using the provided Dockerfile.
+1. Option 1: run the following commands to install the dependencies directly.
 ```
 sudo apt update
 sudo apt install python3-pip
 python3 -m pip install -r requirements.txt
+```
+2. Option 2: build the code with Dockerfile. First, to install Docker, please follow the official Docker guides for [macOS](https://docs.docker.com/desktop/setup/install/mac-install/), [Windows](https://docs.docker.com/desktop/setup/install/windows-install/), or [Linux](https://docs.docker.com/desktop/setup/install/linux/).
+Next, run the following commands to build the Docker image and start the Docker container. 
+```
+docker build -t nym-reputation-system .
+docker run -it --rm nym-reputation-system
 ```
 
 ## Overview of simulations and analysis
@@ -105,6 +110,7 @@ python3 main.py get_results 'A***A' v1 --attack --mini
 ```
 python3 main.py get_analysis table --test
 ```
+Result table is stored in `/src/analysis/table.ipynb`.
 
 ### To reproduce Figure 2 and 4: 
 Since Figure 4 includes Figure 2's results, here we show steps to reproduce Figure 4's results. Note that Figure 4 includes cost required to achieve varying fractions of the gateway active set controlled by attacker, which go all the way up to near 1.0. The vast ranges of fraction that the graph shows require simulations with the complete set of nodes values instead of just a small subset. Furthermore, the graph requires simulation on v1, v2, and v3, which all together would take around 48 hours at least. Therefore, we use existing simulation data to reproduce the figure (Level 3.)
@@ -113,7 +119,7 @@ To reproduce Figure 4, run:
 ```
 python3 main.py get_analysis cost
 ```
-Running this command executes the Jupyter notebook which will output the corresponding graphs. Path: `/src/analysis/cost.ipynb`
+Running this command executes the Jupyter notebook which will output the corresponding graphs. Path: `/src/analysis/cost.ipynb`.
 
 ### To reproduce Figure 3:
 1. Run the full simulation that records fraction of the gateway active set at different epochs durations (Level 1.)
@@ -126,9 +132,11 @@ python3 main.py get_analysis epoch --test
 ```
 Result graphs are stored in `/src/analysis/epoch.ipynb`.
 
-### To reproduce Figure 12, 13, 14 (Appendix H)
-1. Get analysis using fresh baseline staking simulation output from reproducing Table 1 results.
+### To reproduce Figure 12, 13, 14:
+Note that Figure 12, 13, and 14 show the relationships among fractions of gateway/mixnode active set controlled by attacker, number of reconnections/packets sent by a victim client, and the success probability of having one connection or packet routed through an adversarial path. These results are independent of attack strategies and network monitor versions.
+
+Get analysis using fresh baseline staking simulation outputs from the step reproducing Table 1 results.
 ```
 python3 main.py get_analysis path_prob --test
 ```
-Result graphs are stored in `/src/analysis/path_prob.ipynb`
+Result graphs are stored in `/src/analysis/path_prob.ipynb`.
