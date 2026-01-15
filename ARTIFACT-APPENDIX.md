@@ -150,7 +150,7 @@ python3 main.py get_epochs
 ```
 2. Get Figure 3 using fresh simulation results by passing an additional flag `--test`
 ```
-python3 main.py analysis epoch --test
+python3 main.py get_analysis epoch --test
 ```
 Result graphs are stored in `/src/analysis/epoch.ipynb`.
 
