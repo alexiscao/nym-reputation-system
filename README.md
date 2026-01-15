@@ -7,7 +7,7 @@ Authors: Xinmu Alexis Cao, Matthew Green.
 ## Obtaining this repository and setting up the environment
 To obtain the repository:
 ```
-git clone git@github.com:alexiscao/nym-reputation-system.git
+git clone https://github.com/alexiscao/nym-reputation-system.git
 cd nym-reputation-system
 ```
 To set up the environment:
