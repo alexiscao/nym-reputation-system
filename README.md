@@ -72,9 +72,11 @@ This simulation took around an hour to finish.
 ## Analyzing simulation results
 In general, to run the analysis on simulation results, the command has the following structure:
 ```
-python3 main.py get_analysis {analysis}
+python3 main.py get_analysis {analysis} {--test}
 ```
 {analysis} denotes the type of analysis to run. Choices: `path_prob`, `table`, `cost`, `epoch`
+
+By default, analysis will use provided results from previous simulations. Users have the option to pass in `--test` flag in the end to reproduce results with freshly generated simulation results.
 
 Running the above command will execute the corresponding Jupyter notebook, and the results are stored in the Jupyter notebook.
 
@@ -87,8 +89,7 @@ The results will be stored in Jupyter notebook `table.ipynb`. The full path to t
 ## Reproducing results
 Considering the large amount of time that some simulations would take to finish running, first we describe three levels a user can reproduce the results. 
 * Level 1: able to reproduce the results by running the complete simulation (full simulation takes within an hour.)
-* Level 2: able to reproduce the results by running a small scale simulation on a reduced set of values and fewer simulation rounds (full simulation takes 10+ hours.)
-* Level 3: able to reproduce the results with provided datasets from previous simulations. In this case, the results can _only_ be reproduced by running the complete simulation that would take 24+ hours.
+* Level 2: able to reproduce the results with provided datasets from previous simulations. (Note that in these cases, users have the option to reproduce results with fresh simulation results although the simulation would take considerable time, i.e. 24+ hours. To reproduce results from fresh simulations, pass in `--test` flag in the end of an analysis command.)
 
 Here we focus on steps to reproduce the table and figures in main body of the paper (Table 1, Figure 2, 3, 4.) 
 
@@ -100,43 +101,54 @@ python3 main.py get_results AAAAA v2 --no-attack
 ```
   Each will take around 10 to 15 minutes.
 
-2. Run smaller scale framing attack simulations on NMv1 by passing an additional flag `--mini` in the end  (Level 2.)
+2. Run framing attack simulations on NMv1.
 ```
-python3 main.py get_results 'A***A' v1 --attack --mini
+python3 main.py get_results 'A***A' v1 --attack
 ```
-  This will take around 20 minutes. 
 
-3. Get table results by passing an additional flag `--test` to indicate that the analysis is using fresh simulation outputs (without additional flag, analysis relies on provided datasets from previous simulations.)
+3. Get table results. (Pass an additional flag `--test` to indicate that the analysis is using fresh simulation outputs (without additional flag, analysis relies on provided datasets from previous simulations.)
+```
+python3 main.py get_analysis table
+```
 ```
 python3 main.py get_analysis table --test
 ```
 Result table is stored in `/src/analysis/table.ipynb`.
 
 ### To reproduce Figure 2 and 4: 
-Since Figure 4 includes Figure 2's results, here we show steps to reproduce Figure 4's results. Note that Figure 4 includes cost required to achieve varying fractions of the gateway active set controlled by attacker, which go all the way up to near 1.0. The vast ranges of fraction that the graph shows require simulations with the complete set of nodes values instead of just a small subset. Furthermore, the graph requires simulation on v1, v2, and v3, which all together would take around 48 hours at least. Therefore, we use existing simulation data to reproduce the figure (Level 3.)
+Since Figure 4 includes Figure 2's results, here we show steps to reproduce Figure 4's results. Note that Figure 4 includes cost required to achieve varying fractions of the gateway active set controlled by attacker, which go all the way up to near 1.0. The vast ranges of fraction that the graph shows require simulations with the complete set of nodes values instead of just a small subset. Furthermore, the graph requires simulation on v1, v2, and v3, which all together would take around 48 hours at least. Therefore, we use existing simulation data to reproduce the figure (Level 2.)
 
-To reproduce Figure 4, run:
+To reproduce Figure 4, run the following.
 ```
 python3 main.py get_analysis cost
 ```
 Running this command executes the Jupyter notebook which will output the corresponding graphs. Path: `/src/analysis/cost.ipynb`.
+
+(Or optionally, pass in `--test` flag in the end to reproduce results from fresh simulations.)
+```
+python3 main.py get_results 'A***A' v2 --attack
+python3 main.py get_results 'A***A' v3 --attack
+```
+```
+python3 main.py get_analysis cost --test
+```
 
 ### To reproduce Figure 3:
 1. Run the full simulation that records fraction of the gateway active set at different epochs durations (Level 1.)
 ```
 python3 main.py get_epochs
 ```
-2. Get Figure 3 using fresh simulation results by passing an additional flag `--test`
+2. Get Figure 3 (or optionally, pass in `--test` flag in the end to reproduce results from fresh simulations.)
 ```
-python3 main.py get_analysis epoch --test
+python3 main.py get_analysis epoch
 ```
 Result graphs are stored in `/src/analysis/epoch.ipynb`.
 
 ### To reproduce Figure 12, 13, 14:
 Note that Figure 12, 13, and 14 show the relationships among fractions of gateway/mixnode active set controlled by attacker, number of reconnections/packets sent by a victim client, and the success probability of having one connection or packet routed through an adversarial path. These results are independent of attack strategies and network monitor versions.
 
-Get analysis using fresh baseline staking simulation outputs from the step reproducing Table 1 results.
+Get analysis (or optionally, pass in `--test` flag in the end to reproduce graphs with fresh simulation results.)
 ```
-python3 main.py get_analysis path_prob --test
+python3 main.py get_analysis path_prob
 ```
 Result graphs are stored in `/src/analysis/path_prob.ipynb`.
