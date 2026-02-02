@@ -37,7 +37,7 @@ def main():
         if args.analysis == 'path_prob':
             pm.execute_notebook("src/analysis/path_prob.ipynb", "src/analysis/path_prob.ipynb", parameters={"test": args.test}, kernel_name="python3")
         if args.analysis == 'cost':
-            pm.execute_notebook("src/analysis/cost.ipynb", 'src/analysis/cost.ipynb', kernel_name="python3")
+            pm.execute_notebook("src/analysis/cost.ipynb", 'src/analysis/cost.ipynb', parameters={"test": args.test}, kernel_name="python3")
         if args.analysis == 'table':
             pm.execute_notebook("src/analysis/table.ipynb", "src/analysis/table.ipynb", parameters={"test": args.test}, kernel_name="python3")
         if args.analysis == 'epoch':

@@ -1,3 +1,5 @@
+from typing import Iterable
+from pathlib import Path
 from .average import get_average_across_files
 from .min_cost import min_cost_compare
 from .path_prob import plot_f_to_path_probs, plot_n_required_for_half_prob_path
@@ -7,7 +9,19 @@ from .Result import Config
 from matplotlib import rcParams
 rcParams['font.family'] = 'serif' 
 
-    
+def require_files(files: Iterable[str]):
+    root = Path.cwd()
+    missing = []
+    for f in files:
+        if not (root / "sim_data" / f).is_file():
+            missing.append(f) 
+    if missing:
+        raise FileNotFoundError(
+            "Required result file(s) not found:\n"
+            + "\n".join(f"  - {f}" for f in missing)
+            + "\nPlease run full simulations to generate the missing files."
+        )
+            
 def get_analysis(test, analysis):
     
     if test:
@@ -32,14 +46,24 @@ def get_analysis(test, analysis):
         plot_n_required_for_half_prob_path(type="*AAA*", config=config)
         
     elif analysis == 'cost':
+        if test:
+            files = [
+                'v2_A***A_False_100.json',
+                'v1_A***A_True_100.json',
+                'v2_A***A_True_100.json',
+                'v3_A***A_True_100.json']
+        else:
+            files = [
+                'v2_A***A_False.json', 
+                'v1_A***A_True.json', 
+                'v2_A***A_True.json', 
+                'v3_A***A_True.json']
+            
         # OVERALL COSTS COMPARISONS FOR ATTACKS
-        min_cost_compare(f_max=0.9, round_num=1,
-                        files=[
-                            'v2_A***A_False.json', 
-                            'v1_A***A_True.json', 
-                            'v2_A***A_True.json', 
-                            'v3_A***A_True.json'
-                            ],
+        try:
+            require_files(files)
+            min_cost_compare(f_max=0.9, round_num=1,
+                        files=files,
                         
                         labels=[
                             'Baseline Attack for A***A', 
@@ -47,22 +71,42 @@ def get_analysis(test, analysis):
                             'Performance Scoring Attack for A***A in NMv2', 
                             'Performance Scoring Attack for A***A in NMv3'
                             ])
+        except FileNotFoundError as e:
+            print(e)   
     
     elif analysis == 'table':        
         # TABLE reproducing results in main body
         print("======================== NMv1 ========================")
         if test:
-            table(dropfile1='v1_A***A_True_10.json', dropfile2='v1_A***A_True_10.json', config=config)
+            try:
+                require_files(files=['v1_A***A_True_100.json', 'v1_A***A_True_100.json'])
+                table(dropfile1='v1_A***A_True_100.json', dropfile2='v1_A***A_True_100.json', config=config)
+            except FileNotFoundError as e:
+                print(e)
         else:  
             table(dropfile1='v1_A***A_True.json', dropfile2='v1_A***A_True.json', config=config)
-        
+
         print()
         print("======================== NMv2 ========================")
-        table(dropfile1='v2_A***A_True.json', dropfile2='v2_AAAAA_True.json', config=config)
-        
+        if test:
+            try:
+                require_files(files=['v2_A***A_True_100.json', 'v2_AAAAA_True_100.json'])
+                table(dropfile1='v2_A***A_True_100.json', dropfile2='v2_AAAAA_True_100.json', config=config)
+            except FileNotFoundError as e:
+                print(e)
+        else:
+            table(dropfile1='v2_A***A_True.json', dropfile2='v2_AAAAA_True.json', config=config)
+
         print()
         print("======================== NMv3 ========================")
-        table(dropfile1='v3_A***A_True.json', dropfile2='v3_AAAAA_True.json', config=config)
+        if test:
+            try:
+                require_files(files=['v3_A***A_True_100.json', 'v3_AAAAA_True_100.json'])
+                table(dropfile1='v3_A***A_True_100.json', dropfile2='v3_AAAAA_True_100.json', config=config)
+            except FileNotFoundError as e:
+                print(e)
+        else:
+            table(dropfile1='v3_A***A_True.json', dropfile2='v3_AAAAA_True.json', config=config)
     
 
 def get_analysis_epochs(test):    
