@@ -19,7 +19,7 @@ def require_files(files: Iterable[str]):
         raise FileNotFoundError(
             "Required result file(s) not found:\n"
             + "\n".join(f"  - {f}" for f in missing)
-            + "\nPlease run full simulations to generate the missing files."
+            + "\nPlease run full simulations to generate the missing files or rerun analysis by removing --test flag to use existing datasets."
         )
             
 def get_analysis(test, analysis):
